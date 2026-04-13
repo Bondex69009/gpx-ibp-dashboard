@@ -444,8 +444,8 @@ function renderDashboard(d) {
   const pill = document.getElementById('ibpPill');
   pill.style.background   = clr.bg;
   pill.style.borderColor  = clr.border;
-  document.getElementById('ibpNum').textContent  = d.ibpValue;
   document.getElementById('ibpNum').style.color  = clr.color;
+  countUpText('ibpNum', d.ibpValue, 0);
   document.getElementById('ibpCat').textContent  = clr.cat;
   document.getElementById('ibpCat').style.color  = clr.color;
 
@@ -456,16 +456,16 @@ function renderDashboard(d) {
   setTimeout(() => { document.getElementById('relFill').style.width = relP + '%'; }, 80);
 
   // Main metrics
-  sv('mTotalDist', d.totalDist, 'km');
-  sv('mDenivPos',  d.denivPos,  'm');
-  sv('mDenivNeg',  d.denivNeg,  'm');
-  sv('mAltMax',    d.altMax,    'm');
-  sv('mAltMin',    d.altMin,    'm');
+  countUp('mTotalDist', d.totalDist, 2, 'km',   0);
+  countUp('mDenivPos',  d.denivPos,  0, 'm',   80);
+  countUp('mDenivNeg',  d.denivNeg,  0, 'm',  160);
+  countUp('mAltMax',    d.altMax,    0, 'm',  240);
+  countUp('mAltMin',    d.altMin,    0, 'm',  320);
   st('mTimeTotal', d.timeTotal);
   st('mTimeMove',  d.timeMove);
   st('mTimePause', d.timePause);
-  sv('mSpeedAvg',  d.speedAvg,  'km/h');
-  sv('mSpeedMove', d.speedMove, 'km/h');
+  countUp('mSpeedAvg',  d.speedAvg,  1, 'km/h', 400);
+  countUp('mSpeedMove', d.speedMove, 1, 'km/h', 480);
 
   // Km montée / plat / descente
   const totalKm = parseFloat(d.totalDist) || 1;
@@ -479,9 +479,9 @@ function renderDashboard(d) {
   const flatPct = d.pctFlatRaw !== '—' ? parseFloat(d.pctFlatRaw) : Math.round(flatKm/totalKm*100);
   const downPct = d.pctDownRaw !== '—' ? parseFloat(d.pctDownRaw) : Math.round(downKm/totalKm*100);
 
-  sv('kUpKm',   upKm   > 0 ? upKm.toFixed(2)   : '—', 'km');
-  sv('kFlatKm', flatKm > 0 ? flatKm.toFixed(2) : '—', 'km');
-  sv('kDownKm', downKm > 0 ? downKm.toFixed(2) : '—', 'km');
+  countUp('kUpKm',   upKm   > 0 ? upKm   : '—', 2, 'km',  80);
+  countUp('kFlatKm', flatKm > 0 ? flatKm : '—', 2, 'km', 160);
+  countUp('kDownKm', downKm > 0 ? downKm : '—', 2, 'km', 240);
 
   document.getElementById('kUpPct').textContent   = upPct   > 0 ? upPct.toFixed(1)   + '%' : '—';
   document.getElementById('kFlatPct').textContent = flatPct > 0 ? flatPct.toFixed(1) + '%' : '—';
@@ -501,6 +501,46 @@ function renderDashboard(d) {
 
 function sv(id, val, unit) { document.getElementById(id).innerHTML = (val || '—') + `<span class="unit">${unit}</span>`; }
 function st(id, val)       { document.getElementById(id).textContent = val || '—'; }
+
+function countUp(id, target, decimals, unit, delay) {
+  const el = document.getElementById(id);
+  if (!el || target === '—' || isNaN(parseFloat(target))) {
+    el.innerHTML = (target || '—') + `<span class="unit">${unit}</span>`;
+    return;
+  }
+  const end = parseFloat(target);
+  const duration = 900;
+  const start = performance.now() + (delay || 0);
+  function frame(now) {
+    if (now < start) { requestAnimationFrame(frame); return; }
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const current = end * ease;
+    el.innerHTML = current.toFixed(decimals) + `<span class="unit">${unit}</span>`;
+    if (progress < 1) requestAnimationFrame(frame);
+    else el.innerHTML = end.toFixed(decimals) + `<span class="unit">${unit}</span>`;
+  }
+  requestAnimationFrame(frame);
+}
+
+function countUpText(id, target, delay) {
+  const el = document.getElementById(id);
+  if (!el || !target || isNaN(parseFloat(target))) { el.textContent = target || '—'; return; }
+  const end = parseFloat(target);
+  const duration = 900;
+  const start = performance.now() + (delay || 0);
+  function frame(now) {
+    if (now < start) { requestAnimationFrame(frame); return; }
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(end * ease);
+    if (progress < 1) requestAnimationFrame(frame);
+    else el.textContent = end;
+  }
+  requestAnimationFrame(frame);
+}
 
 /* ── Export PNG HD ── */
 async function exportPNG() {
