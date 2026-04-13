@@ -487,16 +487,21 @@ function renderDashboard(d) {
   document.getElementById('kFlatPct').textContent = flatPct > 0 ? flatPct.toFixed(1) + '%' : '—';
   document.getElementById('kDownPct').textContent = downPct > 0 ? downPct.toFixed(1) + '%' : '—';
 
-  setTimeout(() => {
-    document.getElementById('kUpBar').style.width   = Math.min(upPct,   100) + '%';
-    document.getElementById('kFlatBar').style.width = Math.min(flatPct, 100) + '%';
-    document.getElementById('kDownBar').style.width = Math.min(downPct, 100) + '%';
-  }, 80);
-
   // Show
   document.getElementById('loadingScreen').classList.remove('show');
   document.getElementById('dashboard').classList.add('show');
   document.getElementById('actionBar').classList.add('show');
+
+  // Barres après affichage pour que la transition CSS soit visible
+  setTimeout(() => {
+    document.getElementById('kUpBar').style.width   = Math.min(upPct,   100) + '%';
+  }, 120);
+  setTimeout(() => {
+    document.getElementById('kFlatBar').style.width = Math.min(flatPct, 100) + '%';
+  }, 280);
+  setTimeout(() => {
+    document.getElementById('kDownBar').style.width = Math.min(downPct, 100) + '%';
+  }, 440);
 }
 
 function sv(id, val, unit) { document.getElementById(id).innerHTML = (val || '—') + `<span class="unit">${unit}</span>`; }
