@@ -314,8 +314,8 @@ body {
           <span class="km-lbl">Montée</span>
           <span class="km-pct" id="kUpPct">—%</span>
         </div>
-        <div class="km-val" id="kUpKm" style="color:#F44336">—<span class="unit">km</span></div>
-        <div class="km-track"><div class="km-fill" id="kUpBar" style="background:#F44336;width:0%"></div></div>
+        <div class="km-val" id="kUpKm" style="color:#E30613">—<span class="unit">km</span></div>
+        <div class="km-track"><div class="km-fill" id="kUpBar" style="background:#E30613;width:0%"></div></div>
       </div>
       <div class="km-card">
         <div class="km-header">
@@ -350,11 +350,11 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 
 /* ── IBP color scale ── */
 function ibpColor(v) {
-  if (v <= 25)  return { color:'#4CAF50', bg:'rgba(76,175,80,0.12)',    border:'rgba(76,175,80,0.45)',    cat:'Facile' };
-  if (v <= 50)  return { color:'#2196F3', bg:'rgba(33,150,243,0.12)',  border:'rgba(33,150,243,0.45)',  cat:'Assez Facile' };
-  if (v <= 75)  return { color:'#FF9800', bg:'rgba(255,152,0,0.12)',   border:'rgba(255,152,0,0.45)',   cat:'Peu Difficile' };
-  if (v <= 100) return { color:'#F44336', bg:'rgba(244,67,54,0.12)',   border:'rgba(244,67,54,0.45)',   cat:'Assez Difficile' };
-  return               { color:'#90A4D4', bg:'rgba(26,35,126,0.20)',   border:'rgba(26,35,126,0.60)',   cat:'Difficile' };
+  if (v <= 25)  return { color:'#75B729', bg:'rgba(117,183,41,0.12)',   border:'rgba(117,183,41,0.45)',   cat:'Facile' };
+  if (v <= 50)  return { color:'#0080C9', bg:'rgba(0,128,201,0.12)',   border:'rgba(0,128,201,0.45)',   cat:'Assez Facile' };
+  if (v <= 75)  return { color:'#F6A600', bg:'rgba(246,166,0,0.12)',   border:'rgba(246,166,0,0.45)',   cat:'Peu Difficile' };
+  if (v <= 100) return { color:'#E30613', bg:'rgba(227,6,19,0.12)',    border:'rgba(227,6,19,0.45)',    cat:'Assez Difficile' };
+  return               { color:'#8B85A8', bg:'rgba(34,29,68,0.35)',    border:'rgba(34,29,68,0.80)',    cat:'Difficile' };
 }
 
 const relMap = { A:98, B:90, C:80, D:65, E:50, F:30 };
