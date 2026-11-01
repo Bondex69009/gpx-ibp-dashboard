@@ -35,13 +35,35 @@ body {
   min-height: 100vh;
 }
 
+/* ─── SITE HEADER ─── */
+.site-header {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.site-brand { font-size: 13px; font-weight: 600; color: var(--muted); font-family: 'IBM Plex Mono', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.site-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 36px; padding: 0 14px;
+  border: 1px solid rgba(74,222,128,0.35); border-radius: 8px;
+  color: var(--green); font-size: 13px; font-weight: 600; text-decoration: none;
+  white-space: nowrap; transition: background 0.2s, border-color 0.2s;
+}
+.site-link:hover { background: rgba(74,222,128,0.08); border-color: rgba(74,222,128,0.6); }
+.site-link:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
 /* ─── UPLOAD ─── */
 #uploadScreen {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: calc(100vh - 56px);
   padding: 40px 20px;
   gap: 28px;
 }
@@ -70,7 +92,7 @@ body {
 .drop-badge { display: inline-block; background: var(--greendim); border: 1px solid rgba(74,222,128,0.2); border-radius: 6px; padding: 4px 12px; font-size: 11px; font-weight: 600; color: var(--green); font-family: 'IBM Plex Mono', monospace; margin-top: 12px; letter-spacing: 1.5px; }
 
 /* ─── LOADING ─── */
-#loadingScreen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 16px; }
+#loadingScreen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: calc(100vh - 56px); gap: 16px; }
 #loadingScreen.show { display: flex; }
 .spinner { width: 42px; height: 42px; border: 3px solid var(--bg3); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -214,6 +236,11 @@ body {
 </style>
 </head>
 <body>
+
+<header class="site-header">
+  <span class="site-brand">⛰️ Godillots Ailés</span>
+  <a class="site-link" href="https://bondex69009.github.io/randotheque/">Randothèque <span aria-hidden="true">→</span></a>
+</header>
 
 <!-- Upload -->
 <div id="uploadScreen">
