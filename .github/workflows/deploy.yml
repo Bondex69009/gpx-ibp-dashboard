@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    if: github.repository == 'Bondex69009/dashboard-ibp'
     runs-on: ubuntu-latest
 
     steps:
